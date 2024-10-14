@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_list/views/home_layout.dart';
+import 'package:task_list/features/presentation/views/home_layout.dart';
 
 void main() {
   runApp(const TaskListApp());
@@ -12,16 +12,22 @@ class TaskListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
+      darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.dark,
+        onSurface: Colors.white,
+        seedColor: const Color(0xff00ca5d),
+      )),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             surface: Colors.white,
             seedColor: const Color(0xff00ca5d),
             primary: const Color(0xff00ca5d),
             secondary: const Color(0xff00ca5d)),
-        useMaterial3: true,
       ),
-      home: HomeLayout(),
+      home: const HomeLayout(),
     );
   }
 }

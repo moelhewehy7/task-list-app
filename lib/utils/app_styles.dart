@@ -5,7 +5,6 @@ class AppStyles {
     fontFamily: "Inter",
     fontSize: 30,
     fontWeight: FontWeight.w500,
-    color: Color(0xff000000),
     height: 50 / 30,
   );
   static const TextStyle stylesInterBold15 = TextStyle(
