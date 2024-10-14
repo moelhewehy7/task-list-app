@@ -11,7 +11,6 @@ class AppStyles {
     fontFamily: "Inter",
     fontSize: 15,
     fontWeight: FontWeight.w700,
-    color: Color(0xff000000),
     height: 18 / 15,
   );
   static const TextStyle stylesInterMedium13 = TextStyle(
@@ -25,7 +24,6 @@ class AppStyles {
     fontFamily: "Inter",
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: Color(0xff000000),
     height: 17 / 12,
   );
 }
