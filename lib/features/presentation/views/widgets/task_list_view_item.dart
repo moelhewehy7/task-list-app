@@ -14,14 +14,14 @@ class TaskListViewItem extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        title: const Text(
+        title: Text(
           "Build UI Android",
-          style: AppStyles.stylesInterBold15,
+          style: AppStyles.stylesInterBold16,
           textAlign: TextAlign.left,
         ),
         subtitle: const Text(
           "Due Date: Mon. 21/3/2024",
-          style: AppStyles.stylesInterRegular12,
+          style: AppStyles.stylesInterRegular14,
           textAlign: TextAlign.left,
         ),
         trailing: SvgPicture.asset(

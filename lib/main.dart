@@ -15,15 +15,19 @@ class TaskListApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
+          fontFamily: 'Inter',
           colorScheme: ColorScheme.fromSeed(
-        brightness: Brightness.dark,
-        onSurface: Colors.white,
-        seedColor: const Color(0xff00ca5d),
-      )),
+            brightness: Brightness.dark,
+            onSurface: Colors.white,
+            seedColor: const Color(0xff00ca5d),
+          )),
       theme: ThemeData(
+        fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSeed(
+            surfaceContainerLowest: Color(0xfff7f7f7),
             surfaceBright: const Color(0xfffdfdfd),
             surface: Colors.white,
+            onSurface: Colors.black,
             seedColor: const Color(0xff00ca5d),
             primary: const Color(0xff00ca5d),
             secondary: const Color(0xff00ca5d)),

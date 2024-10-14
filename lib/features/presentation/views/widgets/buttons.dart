@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             text,
-            style: AppStyles.stylesInterBold15,
+            style: AppStyles.stylesInterBold16,
             textAlign: TextAlign.center,
           )),
     );

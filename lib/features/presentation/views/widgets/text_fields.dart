@@ -14,11 +14,12 @@ class CustomTextField extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           filled: true,
+          fillColor: Theme.of(context).colorScheme.surfaceContainerLowest,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(20)),
           hintText: hint,
-          hintStyle: AppStyles.stylesInterRegular12),
+          hintStyle: AppStyles.stylesInterRegular14),
     );
   }
 }

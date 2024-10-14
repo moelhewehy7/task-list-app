@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
@@ -34,13 +35,7 @@ class ModalBottomSheetBody extends StatelessWidget {
             ),
             const Text(
               "Create New Task",
-              style: TextStyle(
-                fontFamily: "Inter",
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: Color(0xff000000),
-                height: 18 / 15,
-              ),
+              style: AppStyles.stylesInterBold16,
               textAlign: TextAlign.left,
             ),
             const SizedBox(

@@ -10,7 +10,7 @@ class CustomHeader extends StatelessWidget {
       children: [
         Text(
           "Good Morning",
-          style: AppStyles.stylesInterMedium30
+          style: AppStyles.stylesInterMedium32
               .copyWith(color: Theme.of(context).colorScheme.onSurface),
           textAlign: TextAlign.left,
         ),
