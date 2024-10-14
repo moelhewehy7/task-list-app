@@ -21,45 +21,62 @@ class _MobileLayoutState extends State<MobileLayout> {
     "Done",
   ];
   int selected = 0;
+  int itemSelected = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: CustomHeader(),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: List.generate(
-                  texts.length,
-                  (index) => GestureDetector(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: CustomHeader(),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                children: List.generate(
+                    texts.length,
+                    (index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selected = index;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: CustomContainer(
+                            text: texts[index],
+                            isSelected: selected == index,
+                          ),
+                        ))),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) => SizedBox(height: 15),
+                itemCount: 9,
+                itemBuilder: (context, index) => Expanded(
+                  child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          selected = index;
+                          itemSelected = index;
                         });
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: CustomContainer(
-                          text: texts[index],
-                          isSelected: selected == index,
-                        ),
-                      ))),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CustomListViewItem()
-          ],
+                      child: CustomListViewItem(
+                          isSelected: itemSelected == index)),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -67,12 +84,15 @@ class _MobileLayoutState extends State<MobileLayout> {
 }
 
 class CustomListViewItem extends StatelessWidget {
-  const CustomListViewItem({super.key});
-
+  const CustomListViewItem({super.key, required this.isSelected});
+  final bool isSelected;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      elevation: 4,
+      color: Theme.of(context).colorScheme.surfaceBright,
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         title: Text(
           "Build UI Android",
           style: AppStyles.stylesInterBold15,
@@ -83,7 +103,11 @@ class CustomListViewItem extends StatelessWidget {
           style: AppStyles.stylesInterRegular12,
           textAlign: TextAlign.left,
         ),
-        trailing: SvgPicture.asset(AppConstants.checkMarkPic),
+        trailing: SvgPicture.asset(
+          isSelected
+              ? AppConstants.selectedCheckMarkPic
+              : AppConstants.unSelectedCheckMarkPic,
+        ),
       ),
     );
   }
