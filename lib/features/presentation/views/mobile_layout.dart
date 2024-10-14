@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:task_list/utils/app_styles.dart';
+import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_container.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 
@@ -57,6 +57,28 @@ class _MobileLayoutState extends State<MobileLayout> {
               height: 10,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomListViewItem extends StatelessWidget {
+  const CustomListViewItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListTile(
+        title: Text(
+          "Build UI Android",
+          style: AppStyles.stylesInterBold15,
+          textAlign: TextAlign.left,
+        ),
+        subtitle: Text(
+          "Due Date: Mon. 21/3/2024",
+          style: AppStyles.stylesInterRegular12,
+          textAlign: TextAlign.left,
         ),
       ),
     );
