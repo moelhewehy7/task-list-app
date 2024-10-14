@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:task_list/core/utils/app_constants.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_container.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MobileLayout extends StatefulWidget {
   const MobileLayout({super.key});
@@ -56,6 +58,7 @@ class _MobileLayoutState extends State<MobileLayout> {
             SizedBox(
               height: 10,
             ),
+            CustomListViewItem()
           ],
         ),
       ),
@@ -80,6 +83,7 @@ class CustomListViewItem extends StatelessWidget {
           style: AppStyles.stylesInterRegular12,
           textAlign: TextAlign.left,
         ),
+        trailing: SvgPicture.asset(AppConstants.checkMarkPic),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_list/utils/app_styles.dart';
+import 'package:task_list/core/utils/app_styles.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({super.key});
