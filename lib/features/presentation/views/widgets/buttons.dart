@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_alert_dialog.dart';
-import 'package:task_list/features/presentation/views/widgets/modal_vottom_sheet_body.dart';
-import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -51,6 +49,6 @@ class CustomFilledButton extends StatelessWidget {
             },
           );
         },
-        icon: Icon(Icons.add));
+        icon: const Icon(Icons.add));
   }
 }

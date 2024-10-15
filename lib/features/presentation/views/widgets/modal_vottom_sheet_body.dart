@@ -35,7 +35,7 @@ class ModalBottomSheetBody extends StatelessWidget {
             ),
             const Text(
               "Create New Task",
-              style: AppStyles.stylesInterBold16,
+              style: AppStyles.stylesInterBold17,
               textAlign: TextAlign.left,
             ),
             const SizedBox(

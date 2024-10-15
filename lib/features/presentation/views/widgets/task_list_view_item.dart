@@ -8,26 +8,29 @@ class TaskListViewItem extends StatelessWidget {
   final bool isSelected;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      color: Theme.of(context).colorScheme.surfaceBright,
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        title: Text(
-          "Build UI Android",
-          style: AppStyles.stylesInterBold16,
-          textAlign: TextAlign.left,
-        ),
-        subtitle: const Text(
-          "Due Date: Mon. 21/3/2024",
-          style: AppStyles.stylesInterRegular14,
-          textAlign: TextAlign.left,
-        ),
-        trailing: SvgPicture.asset(
-          isSelected
-              ? AppConstants.selectedCheckMarkPic
-              : AppConstants.unSelectedCheckMarkPic,
+    return SizedBox(
+      width: 320,
+      child: Card(
+        elevation: 4,
+        color: Theme.of(context).colorScheme.surfaceBright,
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          title: Text(
+            "Build UI Android",
+            style: AppStyles.stylesInterBold17,
+            textAlign: TextAlign.left,
+          ),
+          subtitle: const Text(
+            "Due Date: Mon. 21/3/2024",
+            style: AppStyles.stylesInterRegular14,
+            textAlign: TextAlign.left,
+          ),
+          trailing: SvgPicture.asset(
+            isSelected
+                ? AppConstants.selectedCheckMarkPic
+                : AppConstants.unSelectedCheckMarkPic,
+          ),
         ),
       ),
     );

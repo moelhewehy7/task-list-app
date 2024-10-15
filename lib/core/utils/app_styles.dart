@@ -7,16 +7,16 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     height: 50 / 30,
   );
-  static const TextStyle stylesInterBold16 = TextStyle(
+  static const TextStyle stylesInterBold17 = TextStyle(
     fontFamily: "Inter",
     fontSize: 16,
     fontWeight: FontWeight.w800,
     height: 18 / 15,
   );
-  static const TextStyle stylesInterMedium13 = TextStyle(
+  static const TextStyle stylesInterMedium14 = TextStyle(
     fontFamily: "Inter",
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
     height: 50 / 30,
   );
   static const TextStyle stylesInterRegular14 = TextStyle(
