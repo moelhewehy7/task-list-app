@@ -5,7 +5,6 @@ import 'package:task_list/features/presentation/data/model/task_model.dart';
 import 'package:task_list/features/presentation/views/home_layout.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
   await Hive.openBox<TaskModel>(AppConstants.tasksBox);
