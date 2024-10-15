@@ -9,11 +9,18 @@ class CustomHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "Good Morning",
-          style: AppStyles.stylesInterMedium32
-              .copyWith(color: Theme.of(context).colorScheme.onSurface),
-          textAlign: TextAlign.left,
+        Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Good Morning",
+              overflow: TextOverflow.ellipsis,
+              style: AppStyles.stylesInterMedium32.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
         ),
         trailing ?? const SizedBox()
       ],

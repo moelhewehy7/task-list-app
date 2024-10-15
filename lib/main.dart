@@ -12,7 +12,7 @@ class TaskListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
           fontFamily: 'Inter',
@@ -24,6 +24,7 @@ class TaskListApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSeed(
+            onSecondary: const Color(0xFFe6faef),
             surfaceContainerLowest: const Color(0xfff7f7f7),
             surfaceBright: const Color(0xfffdfdfd),
             surface: Colors.white,

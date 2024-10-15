@@ -17,15 +17,20 @@ class CustomContainer extends StatelessWidget {
       decoration: ShapeDecoration(
           color: isSelected
               ? Theme.of(context).colorScheme.primary
-              : const Color(0xFFe6faef), // Change the background color
+              : Theme.of(context)
+                  .colorScheme
+                  .onSecondary, // Change the background color
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-      child: Text(
-        text,
-        style: AppStyles.stylesInterMedium14.copyWith(
-            color: isSelected
-                ? Theme.of(context).colorScheme.surface
-                : Theme.of(context).colorScheme.primary),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          text,
+          style: AppStyles.stylesInterMedium14.copyWith(
+              color: isSelected
+                  ? Theme.of(context).colorScheme.surface
+                  : Theme.of(context).colorScheme.primary),
+        ),
       ),
     );
   }

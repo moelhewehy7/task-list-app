@@ -20,19 +20,21 @@ class _FilterRowState extends State<FilterRow> {
     return Row(
       children: List.generate(
           texts.length,
-          (index) => GestureDetector(
-              onTap: () {
-                setState(() {
-                  selected = index;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: CustomContainer(
-                  text: texts[index],
-                  isSelected: selected == index,
-                ),
-              ))),
+          (index) => Flexible(
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selected = index;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: CustomContainer(
+                        text: texts[index],
+                        isSelected: selected == index,
+                      ),
+                    )),
+              )),
     );
   }
 }

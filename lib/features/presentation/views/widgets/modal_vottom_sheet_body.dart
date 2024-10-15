@@ -3,11 +3,19 @@ import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
-class ModalBottomSheetBody extends StatelessWidget {
+class ModalBottomSheetBody extends StatefulWidget {
   const ModalBottomSheetBody({
     super.key,
   });
 
+  @override
+  State<ModalBottomSheetBody> createState() => _ModalBottomSheetBodyState();
+}
+
+class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  DateTime? _selectedDate;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,13 +49,19 @@ class ModalBottomSheetBody extends StatelessWidget {
             const SizedBox(
               height: 14,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: _titleController,
               hint: "Task title",
             ),
             const SizedBox(
               height: 19,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: _dateController,
+              onTap: () async {
+                await selectDate(context);
+              },
+              readOnly: true,
               hint: "Due Date",
             ),
             const SizedBox(
@@ -64,5 +78,22 @@ class ModalBottomSheetBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future selectDate(context) async {
+    DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        _dateController.text = picked.toString().split(" ")[0];
+        //  output of just picked.toString(): = 2024-10-15 00:00:00.000
+        //  The split(" ") function breaks the string at the first space character " "
+      });
+    }
   }
 }

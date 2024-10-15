@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
-class CustomAlertDialog extends StatelessWidget {
+class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({
     super.key,
   });
 
+  @override
+  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
+}
+
+class _CustomAlertDialogState extends State<CustomAlertDialog> {
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -18,7 +25,7 @@ class CustomAlertDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(
           horizontal: 17, vertical: 14), // Optional padding
       content: SizedBox(
-        width: 350,
+        width: 370,
         child: Column(
           mainAxisSize:
               MainAxisSize.min, // Ensures the dialog size wraps its content
@@ -47,9 +54,9 @@ class CustomAlertDialog extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 14),
-            const CustomTextField(hint: "Task title"),
+            CustomTextField(controller: _titleController, hint: "Task title"),
             const SizedBox(height: 7),
-            const CustomTextField(hint: "Due Date"),
+            CustomTextField(controller: _dateController, hint: "Due Date"),
             const SizedBox(height: 49),
             CustomButton(
               text: "Save Task",
