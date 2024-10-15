@@ -43,16 +43,37 @@ class MobileLayout extends StatelessWidget {
         child: CustomButton(
           text: "Create Task",
           onPressed: () {
-            showModalBottomSheet(
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                isScrollControlled: true,
-                context: context,
-                builder: (context) {
-                  return const ModalBottomSheetBody();
-                });
+            modalBottomSheet(context);
           },
         ),
       ),
     );
+  }
+
+  Future<dynamic> modalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        barrierColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color of the modal
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2), // Shadow color
+                  spreadRadius: 2, // Spread radius
+                  blurRadius: 4, // Blur radius
+                  offset:
+                      Offset(0, -3), // to Move shadow upward// Shadow offset
+                ),
+              ],
+            ),
+            child: const ModalBottomSheetBody(),
+          );
+        });
   }
 }

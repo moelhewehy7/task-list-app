@@ -9,7 +9,7 @@ class AppStyles {
   );
   static const TextStyle stylesInterBold17 = TextStyle(
     fontFamily: "Inter",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: FontWeight.w800,
     height: 18 / 15,
   );

@@ -22,7 +22,7 @@ class CustomContainer extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
       child: Text(
         text,
-        style: AppStyles.stylesInterMedium13.copyWith(
+        style: AppStyles.stylesInterMedium14.copyWith(
             color: isSelected
                 ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.primary),
