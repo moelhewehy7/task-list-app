@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:task_list/core/utils/app_styles.dart';
+import 'package:task_list/features/presentation/data/cubits/cubit/add_task_cubit.dart';
 import 'package:task_list/features/presentation/data/model/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ModalBottomSheetBody extends StatefulWidget {
   const ModalBottomSheetBody({
@@ -19,8 +23,8 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
 
   final GlobalKey<FormState> _formkey = GlobalKey();
   DateTime? _selectedDate;
-  String? title;
-  DateTime? dueDate;
+  String? title, dueDate;
+
   bool isDone = false;
 
   @override
@@ -75,24 +79,44 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
               const SizedBox(
                 height: 19,
               ),
-              CustomTextField(
-                onsaved: (data) {
-                  dueDate = DateTime.parse(data!);
-                  //because String can't be assigned to a variable of type DateTime DateTime.parse()
-                },
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Field is required';
-                  } else {
-                    return null;
+              BlocConsumer<AddTaskCubit, AddTaskState>(
+                listener: (context, state) {
+                  if (state is AddTaskSuccessful) {
+                    Navigator.pop(context);
+                  } else if (state is AddTaskFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.errMessage),
+                    ));
                   }
                 },
-                controller: _dateController,
-                onTap: () async {
-                  await selectDate(context);
+                builder: (context, state) {
+                  if (state is AddTaskILoading) {
+                    return SpinKitCircle(
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 20.0,
+                    );
+                  } else {
+                    return CustomTextField(
+                      onsaved: (data) {
+                        dueDate = data;
+                        //because String can't be assigned to a variable of type DateTime DateTime.parse()
+                      },
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Field is required';
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: _dateController,
+                      onTap: () async {
+                        await selectDate(context);
+                      },
+                      readOnly: true,
+                      hint: "Due Date",
+                    );
+                  }
                 },
-                readOnly: true,
-                hint: "Due Date",
               ),
               const SizedBox(
                 height: 18,
@@ -102,8 +126,13 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
-                    isDone = false;
-                    Navigator.pop(context);
+
+                    TaskModel task = TaskModel(
+                      title: title!,
+                      dueDate: dueDate!,
+                      isDone: false,
+                    );
+                    BlocProvider.of<AddTaskCubit>(context).addTask(task: task);
                   }
                 },
               ),
@@ -127,7 +156,8 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
     if (picked != null) {
       setState(() {
         _selectedDate = picked;
-        _dateController.text = picked.toString().split(" ")[0];
+        //// Format the picked date as "Mon. 21/3/2024"
+        _dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
         //  output of just picked.toString(): = 2024-10-15 00:00:00.000
         //  The split(" ") function breaks the string at the first space character " "
       });

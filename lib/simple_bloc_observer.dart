@@ -14,7 +14,7 @@ class SimpleBlocObserver implements BlocObserver {
 
   @override
   void onCreate(BlocBase bloc) {
-    // TODO: implement onCreate
+    debugPrint("onCreate ${bloc.toString()}");
   }
 
   @override

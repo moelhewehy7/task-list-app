@@ -18,7 +18,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
     };
     return TaskModel(
       title: fields[0] as String,
-      dueDate: fields[1] as DateTime,
+      dueDate: fields[1] as String,
       isDone: fields[2] as bool,
     );
   }
