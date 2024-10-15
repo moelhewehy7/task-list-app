@@ -10,7 +10,7 @@ part 'task_state.dart';
 class TasksCubit extends Cubit<TasksState> {
   TasksCubit() : super(TasksInitial());
 
-  List<TaskModel> fecthAllTasks({bool? isDone}) {
+  fecthAllTasks({bool? isDone}) {
     var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
     List<TaskModel> tasks = taskBox.values.toList();
 
@@ -24,7 +24,5 @@ class TasksCubit extends Cubit<TasksState> {
     } else {
       emit(TasksSucccess(tasks: tasks));
     }
-
-    return tasks;
   }
 }

@@ -70,15 +70,13 @@ class _TaskListViewState extends State<TaskListView> {
           );
         } else {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Lottie.asset(
-                  'assets/images/Animation - 1729031443431.json', // Path to your asset
-                  width: 200, // Set size if needed
-                  height: 200,
-                  fit: BoxFit.fill,
-                ),
+              Lottie.asset(
+                'assets/images/Animation - 1729031443431.json', // Path to your asset
+                width: 200, // Set size if needed
+                height: 200,
+                fit: BoxFit.fill,
               ),
               const Text(
                 "No tasks available.",
