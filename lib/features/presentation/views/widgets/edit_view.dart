@@ -18,7 +18,7 @@ class EditView extends StatefulWidget {
 
 class _EditViewState extends State<EditView> {
   final TextEditingController _dateController = TextEditingController();
-  DateTime? _selectedDate;
+  String? _selectedDate;
   String? title, dueDate;
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,18 @@ class _EditViewState extends State<EditView> {
               children: [
                 CustomHeader(
                     text: "Edit Task",
-                    trailing: SvgPicture.asset(
-                      widget.taskModel.isDone
-                          ? AppConstants.selectedCheckMarkPic
-                          : AppConstants.unSelectedCheckMarkPic,
-                      height: 45,
+                    trailing: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          widget.taskModel.isDone = !widget.taskModel.isDone;
+                        });
+                      },
+                      child: SvgPicture.asset(
+                        widget.taskModel.isDone
+                            ? AppConstants.selectedCheckMarkPic
+                            : AppConstants.unSelectedCheckMarkPic,
+                        height: 45,
+                      ),
                     )),
                 const SizedBox(
                   height: 24,
@@ -53,6 +60,9 @@ class _EditViewState extends State<EditView> {
                 ),
                 const SizedBox(height: 16),
                 EditCustomTextField(
+                  onChanged: (data) {
+                    dueDate = data;
+                  },
                   controller: _dateController,
                   onTap: () async {
                     await selectDate(context);
@@ -72,7 +82,8 @@ class _EditViewState extends State<EditView> {
           text: "Save",
           onPressed: () {
             widget.taskModel.title = title ?? widget.taskModel.title;
-            widget.taskModel.dueDate = dueDate ?? _dateController.text;
+            widget.taskModel.dueDate =
+                _selectedDate ?? widget.taskModel.dueDate;
             widget.taskModel.save();
             BlocProvider.of<TasksCubit>(context)
                 .fecthAllTasks(); // to refresh data
@@ -100,8 +111,8 @@ class _EditViewState extends State<EditView> {
 
     if (picked != null) {
       setState(() {
-        _selectedDate = picked;
         _dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
+        _selectedDate = _dateController.text;
         //  output of just picked.toString(): = 2024-10-15 00:00:00.000
         //  The split(" ") function breaks the string at the first space character " "
       });
