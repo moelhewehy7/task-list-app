@@ -3,7 +3,6 @@ import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_alert_dialog.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
-import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
 class DesktopLayout extends StatelessWidget {
   const DesktopLayout({super.key});

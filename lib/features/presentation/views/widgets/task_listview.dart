@@ -80,7 +80,7 @@ class _TaskListViewState extends State<TaskListView> {
                   fit: BoxFit.fill,
                 ),
               ),
-              Text(
+              const Text(
                 "No tasks available.",
                 style: AppStyles.stylesInterBold17,
                 overflow: TextOverflow.ellipsis,
