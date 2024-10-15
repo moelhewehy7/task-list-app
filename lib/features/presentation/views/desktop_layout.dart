@@ -44,7 +44,7 @@ class DesktopLayout extends StatelessWidget {
               children: List.generate(
                   10,
                   (index) => ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minWidth: 150, // Set a minimum width for the card
                           maxWidth: 290, // Set a maximum width for the card
                         ),

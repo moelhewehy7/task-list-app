@@ -12,8 +12,9 @@ class CustomAlertDialog extends StatefulWidget {
 }
 
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  DateTime? _selectedDate;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -56,7 +57,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             const SizedBox(height: 14),
             CustomTextField(controller: _titleController, hint: "Task title"),
             const SizedBox(height: 7),
-            CustomTextField(controller: _dateController, hint: "Due Date"),
+            CustomTextField(
+                controller: _dateController,
+                onTap: () async {
+                  await selectDate(context);
+                },
+                hint: "Due Date"),
             const SizedBox(height: 49),
             CustomButton(
               text: "Save Task",
@@ -69,5 +75,22 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
         ),
       ),
     );
+  }
+
+  Future selectDate(context) async {
+    DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        _dateController.text = picked.toString().split(" ")[0];
+        //  output of just picked.toString(): = 2024-10-15 00:00:00.000
+        //  The split(" ") function breaks the string at the first space character " "
+      });
+    }
   }
 }
