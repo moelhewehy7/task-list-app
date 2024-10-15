@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
+import 'package:lottie/lottie.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -64,7 +66,24 @@ class _TaskListViewState extends State<TaskListView> {
             },
           );
         } else {
-          return const Center(child: Text("empty"));
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Center(
+                child: Lottie.asset(
+                  'assets/images/Animation - 1729031443431.json', // Path to your asset
+                  width: 200, // Set size if needed
+                  height: 200,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              const Text(
+                "No tasks available.",
+                style: AppStyles.stylesInterBold17,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          );
         }
       },
     );
