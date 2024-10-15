@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_list/core/utils/app_constants.dart';
 import 'package:task_list/features/presentation/data/model/task_model.dart';
 import 'package:task_list/features/presentation/views/home_layout.dart';
+import 'package:task_list/simple_bloc_observer.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Bloc.observer = SimpleBlocObserver();
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
   await Hive.openBox<TaskModel>(AppConstants.tasksBox);
   runApp(const TaskListApp());
