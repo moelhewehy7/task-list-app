@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
+import 'package:task_list/features/presentation/views/widgets/custom_alert_dialog.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
@@ -16,8 +17,18 @@ class DesktopLayout extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomHeader(
-              trailing: CustomFilledButton(),
+            CustomHeader(
+              trailing: CustomFilledButton(
+                onpressed: () {
+                  showDialog(
+                    context: context,
+                    barrierColor: const Color(0xE2FFFFFF),
+                    builder: (BuildContext context) {
+                      return const CustomAlertDialog();
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 8,
