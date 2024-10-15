@@ -39,7 +39,7 @@ class _EditViewState extends State<EditView> {
                 ),
                 const EditCustomTextField(
                   icon: Icons.title,
-                  hint: "Title",
+                  hint: "Task Title",
                 ),
                 const SizedBox(height: 16),
                 EditCustomTextField(

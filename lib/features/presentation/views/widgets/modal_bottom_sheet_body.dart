@@ -1,64 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:task_list/core/utils/app_styles.dart';
+import 'package:task_list/features/presentation/data/model/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
-class CustomAlertDialog extends StatefulWidget {
-  const CustomAlertDialog({
+class ModalBottomSheetBody extends StatefulWidget {
+  const ModalBottomSheetBody({
     super.key,
   });
 
   @override
-  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
+  State<ModalBottomSheetBody> createState() => _ModalBottomSheetBodyState();
 }
 
-class _CustomAlertDialogState extends State<CustomAlertDialog> {
+class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+
   final GlobalKey<FormState> _formkey = GlobalKey();
   DateTime? _selectedDate;
+  String? title;
+  DateTime? dueDate;
+  bool isDone = false;
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formkey,
-      child: AlertDialog(
-        shape: RoundedRectangleBorder(
-            side: const BorderSide(color: Color(0xffd2f2db), width: 3),
-            borderRadius: BorderRadius.circular(
-              10,
-            )),
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 17, vertical: 14), // Optional padding
-        content: SizedBox(
-          width: 370,
+    return SingleChildScrollView(
+      child: Form(
+        key: _formkey,
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: 18,
+              right: 18,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              top: 8),
           child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Ensures the dialog size wraps its content
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ))
                 ],
               ),
               const Text(
                 "Create New Task",
-                style: TextStyle(
-                  fontSize: 16, // Replace AppStyles if not used
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppStyles.stylesInterBold17,
                 textAlign: TextAlign.left,
               ),
-              const SizedBox(height: 14),
+              const SizedBox(
+                height: 14,
+              ),
               CustomTextField(
+                onsaved: (data) {
+                  title = data;
+                },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Field is required';
@@ -69,8 +72,14 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 controller: _titleController,
                 hint: "Task title",
               ),
-              const SizedBox(height: 7),
+              const SizedBox(
+                height: 19,
+              ),
               CustomTextField(
+                onsaved: (data) {
+                  dueDate = DateTime.parse(data!);
+                  //because String can't be assigned to a variable of type DateTime DateTime.parse()
+                },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Field is required';
@@ -85,16 +94,22 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 readOnly: true,
                 hint: "Due Date",
               ),
-              const SizedBox(height: 49),
+              const SizedBox(
+                height: 18,
+              ),
               CustomButton(
                 text: "Save Task",
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
+                    _formkey.currentState!.save();
+                    isDone = false;
                     Navigator.pop(context);
                   }
                 },
               ),
-              const SizedBox(height: 7),
+              const SizedBox(
+                height: 18,
+              ),
             ],
           ),
         ),

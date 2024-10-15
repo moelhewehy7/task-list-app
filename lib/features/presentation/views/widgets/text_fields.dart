@@ -8,14 +8,20 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     required this.controller,
+    this.validator,
+    this.onsaved,
   });
   final String hint;
   final bool readOnly;
   final Function()? onTap;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  final Function(String?)? onsaved;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onSaved: onsaved,
+      validator: validator,
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
