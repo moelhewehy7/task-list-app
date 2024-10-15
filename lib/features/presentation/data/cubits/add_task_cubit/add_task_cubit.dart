@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:task_list/core/utils/app_constants.dart';
-import 'package:task_list/features/presentation/data/model/task_model.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 
 part 'add_task_state.dart';
 

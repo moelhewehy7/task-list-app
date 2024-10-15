@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:task_list/core/utils/app_styles.dart';
-import 'package:task_list/features/presentation/data/cubits/cubit/add_task_cubit.dart';
-import 'package:task_list/features/presentation/data/model/task_model.dart';
+import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
+import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -133,6 +134,7 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                       isDone: false,
                     );
                     BlocProvider.of<AddTaskCubit>(context).addTask(task: task);
+                    BlocProvider.of<TasksCubit>(context).fecthAllTasks();
                   }
                 },
               ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_list/core/utils/app_constants.dart';
-import 'package:task_list/features/presentation/data/model/task_model.dart';
+import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/home_layout.dart';
 import 'package:task_list/simple_bloc_observer.dart';
 
@@ -20,29 +21,32 @@ class TaskListApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.light,
-      debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData(
+    return BlocProvider(
+      create: (context) => TasksCubit()..fecthAllTasks(),
+      child: MaterialApp(
+        themeMode: ThemeMode.light,
+        debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData(
+            fontFamily: 'Inter',
+            colorScheme: ColorScheme.fromSeed(
+              brightness: Brightness.dark,
+              onSurface: Colors.white,
+              seedColor: const Color(0xff00ca5d),
+            )),
+        theme: ThemeData(
           fontFamily: 'Inter',
           colorScheme: ColorScheme.fromSeed(
-            brightness: Brightness.dark,
-            onSurface: Colors.white,
-            seedColor: const Color(0xff00ca5d),
-          )),
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(
-            onSecondary: const Color(0xFFe6faef),
-            surfaceContainerLowest: const Color(0xfff7f7f7),
-            surfaceBright: const Color(0xfffdfdfd),
-            surface: Colors.white,
-            onSurface: Colors.black,
-            seedColor: const Color(0xff00ca5d),
-            primary: const Color(0xff00ca5d),
-            secondary: const Color(0xff00ca5d)),
+              onSecondary: const Color(0xFFe6faef),
+              surfaceContainerLowest: const Color(0xfff7f7f7),
+              surfaceBright: const Color(0xfffdfdfd),
+              surface: Colors.white,
+              onSurface: Colors.black,
+              seedColor: const Color(0xff00ca5d),
+              primary: const Color(0xff00ca5d),
+              secondary: const Color(0xff00ca5d)),
+        ),
+        home: const HomeLayout(),
       ),
-      home: const HomeLayout(),
     );
   }
 }

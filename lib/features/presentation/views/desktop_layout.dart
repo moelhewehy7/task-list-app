@@ -45,13 +45,14 @@ class DesktopLayout extends StatelessWidget {
               children: List.generate(
                   10,
                   (index) => ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minWidth: 150, // Set a minimum width for the card
-                          maxWidth: 290, // Set a maximum width for the card
-                        ),
-                        child: const TaskListViewItem(
-                          isSelected: true,
-                        ),
+                      constraints: const BoxConstraints(
+                        minWidth: 150, // Set a minimum width for the card
+                        maxWidth: 290, // Set a maximum width for the card
+                      ),
+                      child: Text("sdfds")
+                      // const TaskListViewItem(
+                      //   isSelected: true,
+                      // ),
                       )),
             )
           ],
