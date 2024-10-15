@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
@@ -13,18 +16,57 @@ class _TaskListViewState extends State<TaskListView> {
   int itemSelected = -1;
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => const SizedBox(height: 15),
-      itemCount: 9,
-      itemBuilder: (context, index) => GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const EditView()));
-          },
-          child: TaskListViewItem(isSelected: itemSelected == index)),
+    return BlocBuilder<TasksCubit, TasksState>(
+      builder: (context, state) {
+        if (state is TasksSucccess) {
+          List<TaskModel> tasks = state.tasks;
+          return ListView.separated(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) => const SizedBox(height: 15),
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              return Dismissible(
+                key: Key(tasks[index]
+                    .dueDate), // Use a unique key, e.g., the task ID
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) {
+                  tasks[index].delete();
+                  BlocProvider.of<TasksCubit>(context).fecthAllTasks();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("${tasks[index].title} deleted"),
+                    ),
+                  );
+                },
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const EditView()),
+                    );
+                  },
+                  child: TaskListViewItem(
+                    task: tasks[index],
+                    isSelected: itemSelected == index,
+                  ),
+                ),
+              );
+            },
+          );
+        } else {
+          return const Center(child: Text("empty"));
+        }
+      },
     );
   }
 }
