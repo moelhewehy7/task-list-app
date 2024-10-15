@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:task_list/core/utils/app_constants.dart';
+import 'package:task_list/features/presentation/data/model/task_model.dart';
 import 'package:task_list/features/presentation/views/home_layout.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter<TaskModel>(TaskModelAdapter());
+  await Hive.openBox<TaskModel>(AppConstants.tasksBox);
   runApp(const TaskListApp());
 }
 
