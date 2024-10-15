@@ -43,13 +43,15 @@ class EditCustomTextField extends StatelessWidget {
   const EditCustomTextField(
       {super.key,
       this.hint,
+      this.fontsize = 14,
       this.maxLines = 1,
       this.onSaved,
       this.onChanged,
       this.initialValue,
       this.readOnly = false,
       required this.icon,
-      this.onTap});
+      this.onTap,
+      this.controller});
 
   final String? hint;
   final int maxLines;
@@ -61,11 +63,13 @@ class EditCustomTextField extends StatelessWidget {
 
   final Function()? onTap;
   final IconData icon;
-
+  final double? fontsize;
   final bool readOnly;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       onTap: onTap,
       readOnly: readOnly,
       initialValue: initialValue,
@@ -86,7 +90,8 @@ class EditCustomTextField extends StatelessWidget {
           prefixIcon: Icon(icon),
           border: InputBorder.none,
           hintText: hint,
-          hintStyle: AppStyles.stylesInterRegular14),
+          hintStyle:
+              AppStyles.stylesInterRegular14.copyWith(fontSize: fontsize)),
     );
   }
 }

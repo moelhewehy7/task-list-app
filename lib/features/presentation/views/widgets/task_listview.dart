@@ -4,6 +4,7 @@ import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
+
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 import 'package:lottie/lottie.dart';
 
@@ -54,12 +55,14 @@ class _TaskListViewState extends State<TaskListView> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const EditView()),
+                      MaterialPageRoute(
+                          builder: (context) => EditView(
+                                taskModel: tasks[index],
+                              )),
                     );
                   },
                   child: TaskListViewItem(
                     task: tasks[index],
-                    isSelected: itemSelected == index,
                   ),
                 ),
               );
@@ -77,7 +80,7 @@ class _TaskListViewState extends State<TaskListView> {
                   fit: BoxFit.fill,
                 ),
               ),
-              const Text(
+              Text(
                 "No tasks available.",
                 style: AppStyles.stylesInterBold17,
                 overflow: TextOverflow.ellipsis,

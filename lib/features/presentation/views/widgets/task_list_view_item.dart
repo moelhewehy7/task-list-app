@@ -5,9 +5,8 @@ import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 
 class TaskListViewItem extends StatefulWidget {
-  const TaskListViewItem(
-      {super.key, required this.isSelected, required this.task});
-  final bool isSelected;
+  const TaskListViewItem({super.key, required this.task});
+
   final TaskModel task;
 
   @override
@@ -31,7 +30,7 @@ class _TaskListViewItemState extends State<TaskListViewItem> {
           textAlign: TextAlign.left,
         ),
         subtitle: Text(
-          widget.task.dueDate,
+          "Due Date: ${widget.task.dueDate}",
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: AppStyles.stylesInterRegular14,

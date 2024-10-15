@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:task_list/core/utils/app_constants.dart';
+import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
 class EditView extends StatefulWidget {
-  const EditView({super.key});
-
+  const EditView({super.key, required this.taskModel});
+  final TaskModel taskModel;
   @override
   State<EditView> createState() => _EditViewState();
 }
@@ -15,6 +19,7 @@ class EditView extends StatefulWidget {
 class _EditViewState extends State<EditView> {
   final TextEditingController _dateController = TextEditingController();
   DateTime? _selectedDate;
+  String? title, dueDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,26 +33,32 @@ class _EditViewState extends State<EditView> {
             child: Column(
               children: [
                 CustomHeader(
-                  text: "Edit Task",
-                  trailing: SvgPicture.asset(
-                    AppConstants.selectedCheckMarkPic,
-                    height: 45,
-                  ),
-                ),
+                    text: "Edit Task",
+                    trailing: SvgPicture.asset(
+                      widget.taskModel.isDone
+                          ? AppConstants.selectedCheckMarkPic
+                          : AppConstants.unSelectedCheckMarkPic,
+                      height: 45,
+                    )),
                 const SizedBox(
                   height: 24,
                 ),
-                const EditCustomTextField(
+                EditCustomTextField(
+                  onChanged: (data) {
+                    title = data;
+                  },
+                  fontsize: 18,
                   icon: Icons.title,
-                  hint: "Task Title",
+                  hint: widget.taskModel.title,
                 ),
                 const SizedBox(height: 16),
                 EditCustomTextField(
+                  controller: _dateController,
                   onTap: () async {
                     await selectDate(context);
                   },
                   icon: Icons.calendar_today,
-                  hint: "Due Date",
+                  hint: "Due Date: ${widget.taskModel.dueDate}",
                   readOnly: true,
                 ),
               ],
@@ -59,7 +70,20 @@ class _EditViewState extends State<EditView> {
         padding: const EdgeInsets.only(left: 18, right: 18, bottom: 16, top: 8),
         child: CustomButton(
           text: "Save",
-          onPressed: () {},
+          onPressed: () {
+            widget.taskModel.title = title ?? widget.taskModel.title;
+            widget.taskModel.dueDate = dueDate ?? _dateController.text;
+            widget.taskModel.save();
+            BlocProvider.of<TasksCubit>(context)
+                .fecthAllTasks(); // to refresh data
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Task updated successfully!"),
+              ),
+            );
+
+            Navigator.pop(context);
+          },
         ),
       ),
     );
@@ -68,14 +92,16 @@ class _EditViewState extends State<EditView> {
   Future selectDate(context) async {
     DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: _selectedDate ?? DateTime.now(),
+        // convert  date string to the correct format "Thu. 17/10/2024"
+        initialDate:
+            DateFormat('EEE. dd/MM/yyyy').parse(widget.taskModel.dueDate),
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
 
     if (picked != null) {
       setState(() {
         _selectedDate = picked;
-        _dateController.text = picked.toString().split(" ")[0];
+        _dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
         //  output of just picked.toString(): = 2024-10-15 00:00:00.000
         //  The split(" ") function breaks the string at the first space character " "
       });

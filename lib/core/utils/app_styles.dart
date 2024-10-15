@@ -22,7 +22,7 @@ class AppStyles {
   static const TextStyle stylesInterRegular14 = TextStyle(
     fontFamily: "Inter",
     fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     height: 17 / 12,
   );
 }
