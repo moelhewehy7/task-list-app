@@ -15,12 +15,16 @@ class TaskListViewItem extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         title: const Text(
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
           "Build UI Android",
           style: AppStyles.stylesInterBold17,
           textAlign: TextAlign.left,
         ),
         subtitle: const Text(
           "Due Date: Mon. 21/3/2024",
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
           style: AppStyles.stylesInterRegular14,
           textAlign: TextAlign.left,
         ),
