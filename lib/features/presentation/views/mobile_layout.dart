@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
@@ -14,11 +12,11 @@ class MobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
           child: Column(
-            children: const [
+            children: [
               SizedBox(
                 height: 15,
               ),
@@ -61,14 +59,15 @@ class MobileLayout extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: Colors.white, // Background color of the modal
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2), // Shadow color
                   spreadRadius: 2, // Spread radius
                   blurRadius: 4, // Blur radius
-                  offset:
-                      Offset(0, -3), // to Move shadow upward// Shadow offset
+                  offset: const Offset(
+                      0, -3), // to Move shadow upward// Shadow offset
                 ),
               ],
             ),

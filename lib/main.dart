@@ -24,7 +24,7 @@ class TaskListApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSeed(
-            surfaceContainerLowest: Color(0xfff7f7f7),
+            surfaceContainerLowest: const Color(0xfff7f7f7),
             surfaceBright: const Color(0xfffdfdfd),
             surface: Colors.white,
             onSurface: Colors.black,

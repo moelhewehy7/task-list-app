@@ -16,7 +16,7 @@ class TaskListViewItem extends StatelessWidget {
         child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          title: Text(
+          title: const Text(
             "Build UI Android",
             style: AppStyles.stylesInterBold17,
             textAlign: TextAlign.left,
