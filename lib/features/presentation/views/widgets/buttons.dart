@@ -32,8 +32,10 @@ class CustomFilledButton extends StatelessWidget {
   const CustomFilledButton({
     this.onpressed,
     super.key,
+    required this.icon,
   });
   final void Function()? onpressed;
+  final IconData? icon;
   @override
   Widget build(BuildContext context) {
     return IconButton.filled(
@@ -41,6 +43,6 @@ class CustomFilledButton extends StatelessWidget {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)))),
         onPressed: onpressed,
-        icon: const Icon(Icons.add));
+        icon: Icon(icon));
   }
 }

@@ -19,6 +19,7 @@ class DesktopLayout extends StatelessWidget {
           children: [
             CustomHeader(
               trailing: CustomFilledButton(
+                icon: Icons.add,
                 onpressed: () {
                   showDialog(
                     context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
 class TaskListView extends StatefulWidget {
@@ -20,9 +21,8 @@ class _TaskListViewState extends State<TaskListView> {
       itemCount: 9,
       itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            setState(() {
-              itemSelected = index;
-            });
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const EditView()));
           },
           child: TaskListViewItem(isSelected: itemSelected == index)),
     );
