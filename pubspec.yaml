@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   hive: ^2.2.3  #to deal with dart and flutter
   hive_flutter: ^1.1.0 #ext from hive to deal with flutter
+  meta: ^1.15.0
   
 
 dev_dependencies:
