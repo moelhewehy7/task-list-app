@@ -5,10 +5,11 @@ import 'package:task_list/core/utils/app_constants.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
-import 'package:task_list/features/presentation/views/widgets/Edit_view.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_alert_dialog.dart';
+import 'package:task_list/features/presentation/views/widgets/custom_delete_dialog.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
+import 'package:task_list/features/presentation/views/widgets/edit_viiew.dart';
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
@@ -66,44 +67,8 @@ class DesktopLayout extends StatelessWidget {
                                   context: context,
                                   barrierColor: const Color(0xE2FFFFFF),
                                   builder: (BuildContext context) {
-                                    return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        title: const Text(
-                                          'Are you sure you want to delete this task?',
-                                          style: AppStyles.stylesInterBold17,
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text(
-                                              'Cancel',
-                                              style:
-                                                  AppStyles.stylesInterBold17,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text(
-                                              'Delete',
-                                              style:
-                                                  AppStyles.stylesInterBold17,
-                                            ),
-                                            onPressed: () {
-                                              tasks[index].delete();
-                                              BlocProvider.of<TasksCubit>(
-                                                      context)
-                                                  .fecthAllTasks();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ]);
+                                    return CustomDeleteDialog(
+                                        tasks: tasks[index]);
                                   },
                                 );
                               },

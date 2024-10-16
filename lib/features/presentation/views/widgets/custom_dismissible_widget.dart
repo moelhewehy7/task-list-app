@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
-import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
+import 'package:task_list/features/presentation/views/widgets/edit_viiew.dart';
 
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
