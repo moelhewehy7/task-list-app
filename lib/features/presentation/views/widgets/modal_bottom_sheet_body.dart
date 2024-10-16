@@ -7,8 +7,10 @@ import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_t
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
+import 'package:task_list/features/presentation/views/widgets/save_task_button.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:uuid/uuid.dart';
 
 class ModalBottomSheetBody extends StatefulWidget {
   const ModalBottomSheetBody({
@@ -124,23 +126,8 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                       size: 20.0,
                     );
                   } else {
-                    return CustomButton(
-                      text: "Save Task",
-                      onPressed: () {
-                        if (_formkey.currentState!.validate()) {
-                          _formkey.currentState!.save();
-
-                          TaskModel task = TaskModel(
-                            title: title!,
-                            dueDate: dueDate!,
-                            isDone: false,
-                          );
-                          BlocProvider.of<AddTaskCubit>(context)
-                              .addTask(task: task);
-                          BlocProvider.of<TasksCubit>(context).fecthAllTasks();
-                        }
-                      },
-                    );
+                    return SaveTaskButton(
+                        formkey: _formkey, title: title, dueDate: dueDate);
                   }
                 },
               ),
