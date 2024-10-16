@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
-import 'package:task_list/features/presentation/views/widgets/edit_view.dart';
-
-import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 import 'package:lottie/lottie.dart';
+
+import 'custom_dismissible_widget.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -30,42 +29,7 @@ class _TaskListViewState extends State<TaskListView> {
             separatorBuilder: (context, index) => const SizedBox(height: 15),
             itemCount: tasks.length,
             itemBuilder: (context, index) {
-              return Dismissible(
-                key: Key(tasks[index]
-                    .dueDate), // Use a unique key, e.g., the task ID
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) {
-                  tasks[index].delete();
-                  BlocProvider.of<TasksCubit>(context).fecthAllTasks();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("${tasks[index].title} deleted"),
-                    ),
-                  );
-                },
-                background: Container(
-                  color: Colors.red,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => EditView(
-                                taskModel: tasks[index],
-                              )),
-                    );
-                  },
-                  child: TaskListViewItem(
-                    task: tasks[index],
-                  ),
-                ),
-              );
+              return CustomDismissibleWidget(tasks: tasks[index]);
             },
           );
         } else {

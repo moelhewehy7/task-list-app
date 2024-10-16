@@ -9,6 +9,8 @@ import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
+import '../../../../core/utils/helper_methods.dart';
+
 class EditView extends StatefulWidget {
   const EditView({super.key, required this.taskModel});
   final TaskModel taskModel;
@@ -17,7 +19,7 @@ class EditView extends StatefulWidget {
 }
 
 class _EditViewState extends State<EditView> {
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   String? _selectedDate;
   String? title, dueDate;
   @override
@@ -63,9 +65,16 @@ class _EditViewState extends State<EditView> {
                   onChanged: (data) {
                     dueDate = data;
                   },
-                  controller: _dateController,
+                  controller: dateController,
                   onTap: () async {
-                    await selectDate(context);
+                    // convert  date string to the correct format "Thu. 17/10/2024"
+                    String date = await Helper().selectDate(
+                      context: context,
+                      initialDate: DateFormat('EEE. dd/MM/yyyy')
+                          .parse(widget.taskModel.dueDate),
+                      dateController: dateController,
+                    );
+                    _selectedDate = date;
                   },
                   icon: Icons.calendar_today,
                   hint: "Due Date: ${widget.taskModel.dueDate}",
@@ -92,30 +101,10 @@ class _EditViewState extends State<EditView> {
                 content: Text("Task updated successfully!"),
               ),
             );
-
             Navigator.pop(context);
           },
         ),
       ),
     );
-  }
-
-  Future selectDate(context) async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        // convert  date string to the correct format "Thu. 17/10/2024"
-        initialDate:
-            DateFormat('EEE. dd/MM/yyyy').parse(widget.taskModel.dueDate),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-
-    if (picked != null) {
-      setState(() {
-        _dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
-        _selectedDate = _dateController.text;
-        //  output of just picked.toString(): = 2024-10-15 00:00:00.000
-        //  The split(" ") function breaks the string at the first space character " "
-      });
-    }
   }
 }

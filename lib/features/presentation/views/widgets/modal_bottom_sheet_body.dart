@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:task_list/core/utils/app_styles.dart';
+import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
@@ -19,11 +20,11 @@ class ModalBottomSheetBody extends StatefulWidget {
 }
 
 class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey();
-  DateTime? _selectedDate;
+  DateTime? selectedDate;
   String? title, dueDate;
 
   bool isDone = false;
@@ -74,7 +75,7 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                     return null;
                   }
                 },
-                controller: _titleController,
+                controller: titleController,
                 hint: "Task title",
               ),
               const SizedBox(
@@ -109,9 +110,15 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                           return null;
                         }
                       },
-                      controller: _dateController,
+                      controller: dateController,
                       onTap: () async {
-                        await selectDate(context);
+                        String date = await Helper().selectDate(
+                          context: context,
+                          initialDate: selectedDate ?? DateTime.now(),
+                          dateController: dateController,
+                        );
+
+                        dueDate = date;
                       },
                       readOnly: true,
                       hint: "Due Date",
@@ -146,23 +153,5 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
         ),
       ),
     );
-  }
-
-  Future selectDate(context) async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate ?? DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        //// Format the picked date as "Mon. 21/3/2024"
-        _dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
-        //  output of just picked.toString(): = 2024-10-15 00:00:00.000
-        //  The split(" ") function breaks the string at the first space character " "
-      });
-    }
   }
 }

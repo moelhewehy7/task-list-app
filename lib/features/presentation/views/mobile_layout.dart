@@ -60,7 +60,9 @@ class MobileLayout extends StatelessWidget {
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white, // Background color of the modal
+              color: Theme.of(context)
+                  .colorScheme
+                  .surface, // Background color of the modal
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(20)),
               boxShadow: [
