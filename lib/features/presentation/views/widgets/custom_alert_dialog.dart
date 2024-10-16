@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
-import 'package:task_list/features/presentation/views/widgets/save_task_button.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
+import 'package:task_list/features/presentation/views/widgets/buttons.dart';
+import 'package:uuid/uuid.dart';
+import '../../data/cubits/task_cubit/task_cubit.dart';
+import '../../data/models/task_model.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({
@@ -118,8 +121,24 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                       size: 20.0,
                     );
                   } else {
-                    return SaveTaskButton(
-                        formkey: _formkey, title: title, dueDate: dueDate);
+                    return CustomButton(
+                      text: "Save Task",
+                      onPressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          _formkey.currentState!.save();
+
+                          TaskModel task = TaskModel(
+                            taskId: const Uuid().v4(),
+                            title: title!,
+                            dueDate: dueDate!,
+                            isDone: false,
+                          );
+                          BlocProvider.of<AddTaskCubit>(context)
+                              .addTask(task: task);
+                          BlocProvider.of<TasksCubit>(context).fecthAllTasks();
+                        }
+                      },
+                    );
                   }
                 },
               ),

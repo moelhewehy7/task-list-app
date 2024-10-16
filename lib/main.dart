@@ -12,9 +12,7 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
   await Hive.openBox<TaskModel>(AppConstants.tasksBox);
-  var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
 
-  taskBox.clear();
   runApp(const TaskListApp());
 }
 

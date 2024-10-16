@@ -13,15 +13,16 @@ class TasksCubit extends Cubit<TasksState> {
   fecthAllTasks({bool? isDone}) {
     var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
     List<TaskModel> tasks = taskBox.values.toList();
-    taskBox.clear();
+
     // Filter tasks by isDone status if provided
     if (isDone != null) {
       tasks = tasks.where((task) => task.isDone == isDone).toList();
     }
-    tasks.sort((a, b) => b.taskId.compareTo(a.taskId));
+
     if (tasks.isEmpty) {
       emit(TasksEmpty());
     } else {
+      tasks.sort((a, b) => b.taskId.compareTo(a.taskId));
       emit(TasksSucccess(tasks: tasks));
     }
   }

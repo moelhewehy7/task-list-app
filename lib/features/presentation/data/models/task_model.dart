@@ -7,7 +7,7 @@ class TaskModel extends HiveObject {
   String title;
   @HiveField(1)
   String dueDate;
-  //hiv store primite type if we wand to add DateTime object to need to create a type adaptor
+  //hive stores primite type if we wand to add DateTime object to need to create a type adaptor
   @HiveField(2)
   bool isDone;
   @HiveField(3)
@@ -20,5 +20,5 @@ class TaskModel extends HiveObject {
       required this.taskId});
 
   Map<String, dynamic> toJson() =>
-      {"title": title, "dueDate": dueDate, "isDone": isDone};
+      {"title": title, "dueDate": dueDate, "isDone": isDone, "taskId": taskId};
 }

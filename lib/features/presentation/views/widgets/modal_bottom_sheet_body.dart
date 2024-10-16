@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
+import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 
-import 'package:task_list/features/presentation/views/widgets/save_task_button.dart';
+import 'package:uuid/uuid.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../data/cubits/task_cubit/task_cubit.dart';
+import '../../data/models/task_model.dart';
 
 class ModalBottomSheetBody extends StatefulWidget {
   const ModalBottomSheetBody({
@@ -22,7 +26,7 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
 
-  final GlobalKey<FormState> formkey = GlobalKey();
+  final GlobalKey<FormState> _formkey = GlobalKey();
   DateTime? selectedDate;
   String? title, dueDate;
 
@@ -32,7 +36,7 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
-        key: formkey,
+        key: _formkey,
         child: Padding(
           padding: EdgeInsets.only(
               left: 18,
@@ -123,8 +127,24 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                       size: 20.0,
                     );
                   } else {
-                    return SaveTaskButton(
-                        formkey: formkey, title: title, dueDate: dueDate);
+                    return CustomButton(
+                      text: "Save Task",
+                      onPressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          _formkey.currentState!.save();
+
+                          TaskModel task = TaskModel(
+                            taskId: const Uuid().v4(),
+                            title: title!,
+                            dueDate: dueDate!,
+                            isDone: false,
+                          );
+                          BlocProvider.of<AddTaskCubit>(context)
+                              .addTask(task: task);
+                          BlocProvider.of<TasksCubit>(context).fecthAllTasks();
+                        }
+                      },
+                    );
                   }
                 },
               ),
