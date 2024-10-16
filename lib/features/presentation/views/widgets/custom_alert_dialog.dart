@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:task_list/core/utils/helper_methods.dart';
+import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
+import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
 
@@ -15,6 +21,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey();
+  String? title, dueDate;
   DateTime? _selectedDate;
   @override
   Widget build(BuildContext context) {
@@ -59,6 +66,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
               const SizedBox(height: 14),
               CustomTextField(
+                onsaved: (data) {
+                  title = data;
+                },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Field is required';
@@ -71,6 +81,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
               const SizedBox(height: 7),
               CustomTextField(
+                onsaved: (data) {
+                  dueDate = data;
+                },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Field is required';
@@ -80,17 +93,51 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 },
                 controller: _dateController,
                 onTap: () async {
-                  await selectDate(context);
+                  String date = await Helper().selectDate(
+                    context: context,
+                    dateController: _dateController,
+                    initialDate: _selectedDate ?? DateTime.now(),
+                  );
+                  _dateController.text = date;
                 },
                 readOnly: true,
                 hint: "Due Date",
               ),
               const SizedBox(height: 49),
-              CustomButton(
-                text: "Save Task",
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
+              BlocConsumer<AddTaskCubit, AddTaskState>(
+                listener: (context, state) {
+                  if (state is AddTaskSuccessful) {
                     Navigator.pop(context);
+                  } else if (state is AddTaskFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.errMessage),
+                    ));
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AddTaskILoading) {
+                    return SpinKitCircle(
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 20.0,
+                    );
+                  } else {
+                    return CustomButton(
+                      text: "Save Task",
+                      onPressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          _formkey.currentState!.save();
+
+                          TaskModel task = TaskModel(
+                            title: title!,
+                            dueDate: dueDate!,
+                            isDone: false,
+                          );
+                          BlocProvider.of<AddTaskCubit>(context)
+                              .addTask(task: task);
+                          BlocProvider.of<TasksCubit>(context).fecthAllTasks();
+                        }
+                      },
+                    );
                   }
                 },
               ),
@@ -100,22 +147,5 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
         ),
       ),
     );
-  }
-
-  Future selectDate(context) async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate ?? DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        _dateController.text = picked.toString().split(" ")[0];
-        //  output of just picked.toString(): = 2024-10-15 00:00:00.000
-        //  The split(" ") function breaks the string at the first space character " "
-      });
-    }
   }
 }

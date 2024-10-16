@@ -5,6 +5,7 @@ import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubi
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../core/utils/app_constants.dart';
 import 'custom_dismissible_widget.dart';
 
 class TaskListView extends StatefulWidget {
@@ -37,7 +38,7 @@ class _TaskListViewState extends State<TaskListView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Lottie.asset(
-                'assets/images/Animation - 1729031443431.json', // Path to your asset
+                AppConstants.lottie, // Path to your asset
                 width: 200, // Set size if needed
                 height: 200,
                 fit: BoxFit.fill,

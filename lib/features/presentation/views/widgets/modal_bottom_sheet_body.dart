@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
@@ -81,6 +81,32 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
               const SizedBox(
                 height: 19,
               ),
+              CustomTextField(
+                onsaved: (data) {
+                  dueDate = data;
+                },
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Field is required';
+                  } else {
+                    return null;
+                  }
+                },
+                controller: dateController,
+                onTap: () async {
+                  String date = await Helper().selectDate(
+                    context: context,
+                    initialDate: selectedDate ?? DateTime.now(),
+                    dateController: dateController,
+                  );
+                  dueDate = date;
+                },
+                readOnly: true,
+                hint: "Due Date",
+              ),
+              const SizedBox(
+                height: 18,
+              ),
               BlocConsumer<AddTaskCubit, AddTaskState>(
                 listener: (context, state) {
                   if (state is AddTaskSuccessful) {
@@ -98,50 +124,23 @@ class _ModalBottomSheetBodyState extends State<ModalBottomSheetBody> {
                       size: 20.0,
                     );
                   } else {
-                    return CustomTextField(
-                      onsaved: (data) {
-                        dueDate = data;
-                        //because String can't be assigned to a variable of type DateTime DateTime.parse()
-                      },
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Field is required';
-                        } else {
-                          return null;
+                    return CustomButton(
+                      text: "Save Task",
+                      onPressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          _formkey.currentState!.save();
+
+                          TaskModel task = TaskModel(
+                            title: title!,
+                            dueDate: dueDate!,
+                            isDone: false,
+                          );
+                          BlocProvider.of<AddTaskCubit>(context)
+                              .addTask(task: task);
+                          BlocProvider.of<TasksCubit>(context).fecthAllTasks();
                         }
                       },
-                      controller: dateController,
-                      onTap: () async {
-                        String date = await Helper().selectDate(
-                          context: context,
-                          initialDate: selectedDate ?? DateTime.now(),
-                          dateController: dateController,
-                        );
-
-                        dueDate = date;
-                      },
-                      readOnly: true,
-                      hint: "Due Date",
                     );
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              CustomButton(
-                text: "Save Task",
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-                    _formkey.currentState!.save();
-
-                    TaskModel task = TaskModel(
-                      title: title!,
-                      dueDate: dueDate!,
-                      isDone: false,
-                    );
-                    BlocProvider.of<AddTaskCubit>(context).addTask(task: task);
-                    BlocProvider.of<TasksCubit>(context).fecthAllTasks();
                   }
                 },
               ),

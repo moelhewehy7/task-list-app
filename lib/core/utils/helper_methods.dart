@@ -15,10 +15,8 @@ class Helper {
     );
 
     if (picked != null) {
-      //// Format the picked date as "Mon. 21/3/2024"
+      //// Format the picked date  2024-10-15 00:00:00.000as "Mon. 21/3/2024"
       dateController.text = DateFormat('EEE. dd/MM/yyyy').format(picked);
-      //  output of just picked.toString(): = 2024-10-15 00:00:00.000
-      //  The split(" ") function breaks the string at the first space character " "
     }
 
     return dateController.text; // Return the current value if no date is picked
