@@ -3,12 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
-import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
-import 'package:task_list/features/presentation/data/models/task_model.dart';
-import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/save_task_button.dart';
 import 'package:task_list/features/presentation/views/widgets/text_fields.dart';
-import 'package:uuid/uuid.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({
