@@ -41,6 +41,8 @@ class _EditViewState extends State<EditView> {
                         setState(() {
                           widget.taskModel.isDone = !widget.taskModel.isDone;
                         });
+                        widget.taskModel.save();
+                        BlocProvider.of<TasksCubit>(context).fecthAllTasks();
                       },
                       child: SvgPicture.asset(
                         widget.taskModel.isDone

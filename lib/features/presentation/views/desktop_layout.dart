@@ -5,6 +5,7 @@ import 'package:task_list/core/utils/app_constants.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/add_task_cubit/add_task_cubit.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
+import 'package:task_list/features/presentation/views/widgets/Edit_view.dart';
 import 'package:task_list/features/presentation/views/widgets/buttons.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_alert_dialog.dart';
 import 'package:task_list/features/presentation/views/widgets/custom_header.dart';
@@ -59,13 +60,75 @@ class DesktopLayout extends StatelessWidget {
                     direction: Axis.horizontal,
                     children: List.generate(
                         tasks.length,
-                        (index) => ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                minWidth: 150,
-                                maxWidth: 300,
-                              ),
-                              child: TaskListViewItem(
-                                task: tasks[index],
+                        (index) => GestureDetector(
+                              onSecondaryTap: () {
+                                showDialog(
+                                  context: context,
+                                  barrierColor: const Color(0xE2FFFFFF),
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        title: const Text(
+                                          'Are you sure you want to delete this task?',
+                                          style: AppStyles.stylesInterBold17,
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text(
+                                              'Cancel',
+                                              style:
+                                                  AppStyles.stylesInterBold17,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text(
+                                              'Delete',
+                                              style:
+                                                  AppStyles.stylesInterBold17,
+                                            ),
+                                            onPressed: () {
+                                              tasks[index].delete();
+                                              BlocProvider.of<TasksCubit>(
+                                                      context)
+                                                  .fecthAllTasks();
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ]);
+                                  },
+                                );
+                              },
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditView(
+                                              taskModel: tasks[index],
+                                            )));
+                              },
+                              child: Tooltip(
+                                verticalOffset: 55,
+                                message:
+                                    'Right-click to delete this task', // Tooltip message
+
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    minWidth: 150,
+                                    maxWidth: 300,
+                                  ),
+                                  child: TaskListViewItem(
+                                    task: tasks[index],
+                                  ),
+                                ),
                               ),
                             )),
                   );

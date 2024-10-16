@@ -10,22 +10,22 @@ import 'package:task_list/features/presentation/views/widgets/task_list_view_ite
 class CustomDismissibleWidget extends StatelessWidget {
   const CustomDismissibleWidget({
     super.key,
-    required this.tasks,
+    required this.task,
   });
 
-  final TaskModel tasks;
+  final TaskModel task;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(tasks.dueDate), // Use a unique key, e.g., the task ID
+      key: Key(task.dueDate), // Use a unique key, e.g., the task ID
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        tasks.delete();
+        task.delete();
         BlocProvider.of<TasksCubit>(context).fecthAllTasks();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Task: ${tasks.title} deleted"),
+            content: Text("Task: ${task.title} deleted"),
           ),
         );
       },
@@ -44,12 +44,12 @@ class CustomDismissibleWidget extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
                 builder: (context) => EditView(
-                      taskModel: tasks,
+                      taskModel: task,
                     )),
           );
         },
         child: TaskListViewItem(
-          task: tasks,
+          task: task,
         ),
       ),
     );

@@ -33,13 +33,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             borderRadius: BorderRadius.circular(
               10,
             )),
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 17, vertical: 14), // Optional padding
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 17, vertical: 14),
         content: SizedBox(
           width: 370,
           child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Ensures the dialog size wraps its content
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(

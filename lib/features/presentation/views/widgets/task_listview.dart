@@ -30,7 +30,7 @@ class _TaskListViewState extends State<TaskListView> {
             separatorBuilder: (context, index) => const SizedBox(height: 15),
             itemCount: tasks.length,
             itemBuilder: (context, index) {
-              return CustomDismissibleWidget(tasks: tasks[index]);
+              return CustomDismissibleWidget(task: tasks[index]);
             },
           );
         } else {
