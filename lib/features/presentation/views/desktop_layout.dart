@@ -25,6 +25,7 @@ class DesktopLayout extends StatefulWidget {
 }
 
 class _DesktopLayoutState extends State<DesktopLayout> {
+  @override
   void initState() {
     super.initState();
     var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);

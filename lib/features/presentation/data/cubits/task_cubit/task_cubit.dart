@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:task_list/core/utils/app_constants.dart';
@@ -13,7 +12,7 @@ class TasksCubit extends Cubit<TasksState> {
 
   fecthAllTasks({bool? isDone}) async {
     var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
-    var box = await Hive.openBox<TaskModel>(AppConstants.tasksBox);
+    await Hive.openBox<TaskModel>(AppConstants.tasksBox);
 
     List<TaskModel> tasks = taskBox.values.toList();
 
