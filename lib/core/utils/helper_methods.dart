@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
+
 class Helper {
+  Future<void> syncTaskToFirestore(
+    TaskModel task,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(task.taskId)
+        .set(task.toJson());
+  }
+
+  Future<void> syncDeletedToFirestore(
+    TaskModel task,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(task.taskId)
+        .delete();
+  }
+
   Future<String> selectDate({
     required BuildContext context,
     required TextEditingController dateController,

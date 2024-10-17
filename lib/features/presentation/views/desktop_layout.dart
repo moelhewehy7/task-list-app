@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task_list/core/utils/app_constants.dart';
 import 'package:task_list/core/utils/app_styles.dart';
@@ -13,10 +14,30 @@ import 'package:task_list/features/presentation/views/widgets/edit_viiew.dart';
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
 import 'package:task_list/features/presentation/views/widgets/task_list_view_item.dart';
 
+import '../../../core/utils/helper_methods.dart';
 import '../data/models/task_model.dart';
 
-class DesktopLayout extends StatelessWidget {
+class DesktopLayout extends StatefulWidget {
   const DesktopLayout({super.key});
+
+  @override
+  State<DesktopLayout> createState() => _DesktopLayoutState();
+}
+
+class _DesktopLayoutState extends State<DesktopLayout> {
+  void initState() {
+    super.initState();
+    var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
+
+    if (taskBox.isNotEmpty) {
+      taskBox.watch().listen((event) {
+        List<TaskModel> tasks = taskBox.values.toList();
+        for (var task in tasks) {
+          Helper().syncTaskToFirestore(task);
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +89,7 @@ class DesktopLayout extends StatelessWidget {
                                   barrierColor: const Color(0xE2FFFFFF),
                                   builder: (BuildContext context) {
                                     return CustomDeleteDialog(
-                                        tasks: tasks[index]);
+                                        task: tasks[index]);
                                   },
                                 );
                               },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_list/core/utils/app_styles.dart';
+import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
 import 'package:lottie/lottie.dart';
@@ -16,6 +18,21 @@ class TaskListView extends StatefulWidget {
 }
 
 class _TaskListViewState extends State<TaskListView> {
+  @override
+  void initState() {
+    super.initState();
+    var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
+
+    if (taskBox.isNotEmpty) {
+      taskBox.watch().listen((event) {
+        List<TaskModel> tasks = taskBox.values.toList();
+        for (var task in tasks) {
+          Helper().syncTaskToFirestore(task);
+        }
+      });
+    }
+  }
+
   int itemSelected = -1;
   @override
   Widget build(BuildContext context) {

@@ -3,15 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 
+import '../../../../core/utils/helper_methods.dart';
 import '../../data/models/task_model.dart';
 
 class CustomDeleteDialog extends StatelessWidget {
   const CustomDeleteDialog({
     super.key,
-    required this.tasks,
+    required this.task,
   });
 
-  final TaskModel tasks;
+  final TaskModel task;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,8 @@ class CustomDeleteDialog extends StatelessWidget {
               style: AppStyles.stylesInterBold17,
             ),
             onPressed: () {
-              tasks.delete();
+              task.delete();
+              Helper().syncDeletedToFirestore(task);
               BlocProvider.of<TasksCubit>(context).fecthAllTasks();
               Navigator.of(context).pop();
             },

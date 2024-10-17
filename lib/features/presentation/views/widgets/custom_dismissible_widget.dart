@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_list/core/utils/helper_methods.dart';
 
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
@@ -22,6 +23,7 @@ class CustomDismissibleWidget extends StatelessWidget {
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
         task.delete();
+        Helper().syncDeletedToFirestore(task);
         BlocProvider.of<TasksCubit>(context).fecthAllTasks();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
