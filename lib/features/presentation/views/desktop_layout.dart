@@ -24,24 +24,23 @@ class DesktopLayout extends StatefulWidget {
 }
 
 class _DesktopLayoutState extends State<DesktopLayout> {
-  late StreamSubscription<BoxEvent> hiveListener;
-  late StreamSubscription<InternetStatus> intennetListener;
+  late StreamSubscription<InternetStatus>? intennetListener;
+
   @override
   void initState() {
     super.initState();
-
     intennetListener =
         InternetConnection().onStatusChange.listen((InternetStatus status) {
       if (status == InternetStatus.connected) {
         var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
-        if (taskBox.isNotEmpty) {
-          hiveListener = taskBox.watch().listen((event) {
+        taskBox.watch().listen((event) {
+          if (taskBox.isNotEmpty) {
             List<TaskModel> tasks = taskBox.values.toList();
             for (var task in tasks) {
               Helper().syncTaskToFirestore(task);
             }
-          });
-        }
+          }
+        });
       }
     });
   }
@@ -49,11 +48,12 @@ class _DesktopLayoutState extends State<DesktopLayout> {
   @override
   void dispose() {
     // If the widget is disposed,
-    intennetListener.cancel();
-    hiveListener.cancel();
+    intennetListener?.cancel();
+
     super.dispose();
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

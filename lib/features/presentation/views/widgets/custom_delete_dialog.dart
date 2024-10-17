@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 
@@ -40,11 +41,14 @@ class CustomDeleteDialog extends StatelessWidget {
               'Delete',
               style: AppStyles.stylesInterBold17,
             ),
-            onPressed: () {
+            onPressed: () async {
               task.delete();
-              Helper().syncDeletedToFirestore(task);
+
               BlocProvider.of<TasksCubit>(context).fecthAllTasks();
               Navigator.of(context).pop();
+              if (await InternetConnection().hasInternetAccess) {
+                await Helper().syncDeletedToFirestore(task);
+              }
             },
           ),
         ]);

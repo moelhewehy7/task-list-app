@@ -20,7 +20,7 @@ class CustomDismissibleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(task.dueDate), // Use a unique key, e.g., the task ID
+      key: Key(task.taskId), // ey should be unique.
       direction: DismissDirection.endToStart,
       onDismissed: (direction) async {
         task.delete();
@@ -32,7 +32,7 @@ class CustomDismissibleWidget extends StatelessWidget {
           ),
         );
         if (await InternetConnection().hasInternetAccess) {
-          Helper().syncDeletedToFirestore(task);
+          await Helper().syncDeletedToFirestore(task);
         }
       },
       background: Container(

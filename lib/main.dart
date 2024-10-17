@@ -26,9 +26,10 @@ void main() async {
   await Hive.initFlutter();
   Bloc.observer = SimpleBlocObserver();
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
+  Hive.deleteBoxFromDisk(AppConstants.tasksBox);
 
-  await Hive.openBox<TaskModel>(AppConstants.tasksBox);
-
+  var box = await Hive.openBox<TaskModel>(AppConstants.tasksBox);
+  box.clear();
   runApp(const TaskListApp());
 }
 
@@ -41,7 +42,7 @@ class TaskListApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => TasksCubit()..fecthAllTasks(),
       child: MaterialApp(
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         darkTheme: ThemeData(
             fontFamily: 'Inter',

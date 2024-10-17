@@ -5,11 +5,51 @@ import 'package:task_list/features/presentation/views/widgets/custom_header.dart
 import 'package:task_list/features/presentation/views/widgets/filter_row.dart';
 import 'package:task_list/features/presentation/views/widgets/modal_bottom_sheet_body.dart';
 import 'package:task_list/features/presentation/views/widgets/task_listview.dart';
+import 'dart:async';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:task_list/core/utils/helper_methods.dart';
+import 'package:task_list/features/presentation/data/models/task_model.dart';
+import '../../../../core/utils/app_constants.dart';
 
 import 'widgets/buttons.dart';
 
-class MobileLayout extends StatelessWidget {
+class MobileLayout extends StatefulWidget {
   const MobileLayout({super.key});
+
+  @override
+  State<MobileLayout> createState() => _MobileLayoutState();
+}
+
+class _MobileLayoutState extends State<MobileLayout> {
+  late StreamSubscription<InternetStatus>? intennetListener;
+
+  @override
+  void initState() {
+    super.initState();
+    intennetListener =
+        InternetConnection().onStatusChange.listen((InternetStatus status) {
+      if (status == InternetStatus.connected) {
+        var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
+        taskBox.watch().listen((event) {
+          if (taskBox.isNotEmpty) {
+            List<TaskModel> tasks = taskBox.values.toList();
+            for (var task in tasks) {
+              Helper().syncTaskToFirestore(task);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // If the widget is disposed,
+    intennetListener?.cancel();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
