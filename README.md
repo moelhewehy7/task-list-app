@@ -49,6 +49,8 @@ The app uses the **Bloc/Cubit** pattern for state management, ensuring smooth an
 - `windows_manager`: Manages window sizes on the desktop version.
 
 
+## Contributing
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
 
 ### Prerequisites
 
@@ -60,7 +62,6 @@ The app uses the **Bloc/Cubit** pattern for state management, ensuring smooth an
 <uses-permission android:name="android.permission.INTERNET" />
 
 
-## Contributing
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
 
 
