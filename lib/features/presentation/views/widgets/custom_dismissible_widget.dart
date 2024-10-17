@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
@@ -21,15 +22,18 @@ class CustomDismissibleWidget extends StatelessWidget {
     return Dismissible(
       key: Key(task.dueDate), // Use a unique key, e.g., the task ID
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
+      onDismissed: (direction) async {
         task.delete();
-        Helper().syncDeletedToFirestore(task);
+
         BlocProvider.of<TasksCubit>(context).fecthAllTasks();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Task: ${task.title} deleted"),
           ),
         );
+        if (await InternetConnection().hasInternetAccess) {
+          Helper().syncDeletedToFirestore(task);
+        }
       },
       background: Container(
         decoration: BoxDecoration(
