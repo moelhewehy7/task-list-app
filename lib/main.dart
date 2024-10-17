@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
     setWindowTitle('Tasks App');
-    setWindowMinSize(const Size(480, 900));
+    setWindowMinSize(const Size(480, 400));
   }
 
   await Firebase.initializeApp(

@@ -1,16 +1,14 @@
 import 'dart:async';
-
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:task_list/core/utils/app_styles.dart';
 import 'package:task_list/core/utils/helper_methods.dart';
 import 'package:task_list/features/presentation/data/cubits/task_cubit/task_cubit.dart';
 import 'package:task_list/features/presentation/data/models/task_model.dart';
-import 'package:lottie/lottie.dart';
 import '../../../../core/utils/app_constants.dart';
 import 'custom_dismissible_widget.dart';
+import 'no_tasks_widget.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -69,22 +67,7 @@ class _TaskListViewState extends State<TaskListView> {
             },
           );
         } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                AppConstants.lottie, // Path to your asset
-                width: 200, // Set size if needed
-                height: 200,
-                fit: BoxFit.fill,
-              ),
-              const Text(
-                "No tasks available.",
-                style: AppStyles.stylesInterBold17,
-                overflow: TextOverflow.ellipsis,
-              )
-            ],
-          );
+          return const NoTasksWidget();
         }
       },
     );
