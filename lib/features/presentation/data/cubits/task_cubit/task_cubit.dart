@@ -11,8 +11,10 @@ part 'task_state.dart';
 class TasksCubit extends Cubit<TasksState> {
   TasksCubit() : super(TasksInitial());
 
-  fecthAllTasks({bool? isDone}) {
+  fecthAllTasks({bool? isDone}) async {
     var taskBox = Hive.box<TaskModel>(AppConstants.tasksBox);
+    var box = await Hive.openBox<TaskModel>(AppConstants.tasksBox);
+
     List<TaskModel> tasks = taskBox.values.toList();
 
     // Filter tasks by isDone status if provided

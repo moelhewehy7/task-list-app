@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ void main() async {
   await Hive.initFlutter();
   Bloc.observer = SimpleBlocObserver();
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
+
   await Hive.openBox<TaskModel>(AppConstants.tasksBox);
 
   runApp(const TaskListApp());
