@@ -42,7 +42,7 @@ class TaskListApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => TasksCubit()..fecthAllTasks(),
       child: MaterialApp(
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
         darkTheme: ThemeData(
             fontFamily: 'Inter',
